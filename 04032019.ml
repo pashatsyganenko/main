@@ -1,3 +1,5 @@
-let rec repeat str n s = if n=0 then s else repeat str (n-1) (s^str) ;;
+let rec buildx n s m = if n<=0 then s else buildx (n-1) (s^(String.make m ' ')^"*\n") (m+1) ;;
+let rec buildy n s = if n <=0 then s else buildy (n-1) (s^(String.make n ' ')^"*\n") ;;
+let build n = (buildx n "" 0)^(buildy (n-2) "") ;;
 
-let rec buildx n s m = if n=0 then s else buildx (n-1) (s^(String.make m ' ')^"*") (m+1) ;;
+print_string (build 40)
