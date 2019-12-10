@@ -16,8 +16,8 @@ let amount mx i =
     let rec f2 m c2 = if m = length (mx.(0))-1 then c2 else f2 (m+1) (c2+(mx.(i)).(m)) in (f1 0 0, f2 0 0) ;;
         (* fst - входящих, snd - исходящих *)
 (* №2 *)
-let incoming mx = let rec f n = if n = length (mx.(0))-1 then [] else if fst (amount mx n)=0 then (fst (amount mx n))::(f (n+1)) else f (n+1)
-    in of_list (f 0) ;;
+let incoming mx = let rec f n = if n = length (mx.(0))-1 then [] else if fst (amount mx n)=0 then
+	(fst (amount mx n))::(f (n+1)) else f (n+1) in of_list (f 0) ;;
 
 let rec (^^) a b =
 	match b with
