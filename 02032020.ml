@@ -25,19 +25,8 @@ let rec razbor str = if str.[0] = '(' then
     else
         Var str ;;
 
-(*print_string (string_from_to "123456789" 1 5) ;;*)
-
 let rec print_lambda lam = match lam with
     | Var s -> print_string s
     | Ayy (l1,l2) -> print_string "("; print_lambda l1; print_string " "; print_lambda l2; print_string ")"
     | Abs (s,l) -> print_string ("(\\" ^ s ^ "."); print_lambda l; print_string ")" ;;
 
-(*print_lambda (Ayy (Var "x", Abs ("y", Ayy (Var "z", Abs ("y", Var "x"))))) ;;
-print_lambda (Var "x") ;;
-print_string "\n"
-*)
-(*
-print_lambda (razbor ("(x ($y.(z ($y.x))))"))
-*)
-
-print_lambda (razbor "(x ($y.(z ($y.x)))")
