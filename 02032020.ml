@@ -10,6 +10,15 @@ let rec string_from_to str x y = let a = ref "" in
     done;
     !a ;;
 
+let rec rep a b l = match l with
+    | Var x -> if x = a then Var b else Var x
+    | Ayy (x,y) -> Ayy(rep a b x,rep a b y)
+    | Abs (x,k) -> Abs((if x = a then b else x), rep a b k) ;;
+
+let print_bool b =
+    if b
+    then print_string "True\n"
+    else print_string "False\n" ;;
 
 let rec razbor str = if str.[0] = '(' then
         if str.[1] = '$'
@@ -30,3 +39,40 @@ let rec print_lambda lam = match lam with
     | Ayy (l1,l2) -> print_string "("; print_lambda l1; print_string " "; print_lambda l2; print_string ")"
     | Abs (s,l) -> print_string ("(\\" ^ s ^ "."); print_lambda l; print_string ")" ;;
 
+let r = ref 0 ;;
+
+let rec new_variable l = match l with
+    | Var x -> r := !r+1
+    | Ayy (x,y) -> new_variable x; new_variable y
+    | Abs (x,l) -> r:= !r+1; new_variable l ;;
+
+let unic_variable l = r:=0; new_variable l; "."^(string_of_int (!r)) ;;
+
+
+let rec alpha_eq x y= match x with
+    | Var a ->
+        if y = Var a
+        then true
+        else false
+    | Ayy (a,b) ->  (match y with
+		| Ayy (c,d) ->
+            if alpha_eq a c && alpha_eq b d
+            then true
+            else false
+		| _-> false)
+    | Abs (a,l) -> (match y with
+		| Abs (b,k) ->
+            if alpha_eq (rep a (unic_variable l) l) (rep b (unic_variable k) k)
+            then true
+            else false
+		| _-> false) ;;
+
+let check_alpha_eq s t =
+    if (alpha_eq s t)
+    then print_string "True\n"
+    else print_string "False\n";;
+
+
+(*print_lambda (Ayy (Var "x", Abs ("y", Ayy (Var "z", Abs ("y", Var "x"))))) ;;
+print_string "\n" ;;*)
+(*check_alpha_eq (Var "x") (Var "x") ;;*)
