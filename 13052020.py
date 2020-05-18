@@ -59,3 +59,26 @@ def qsort(x):
         return qsort(x[:i]) + [x[i]] + qsort(x[i+1:])
 
 #print(qsort([3,2,1,4,6,5,8,9,7]))
+
+#Задача 6
+def heapify(lst, n, i):
+    largest = i
+    l = 2 * i + 1
+    r = 2 * i + 2
+    if l < n and lst[i] < lst[l]:
+        largest = l
+    if r < n and lst[largest] < lst[r]:
+        largest = r
+    if largest != i:
+        lst[i],lst[largest] = lst[largest],lst[i]
+        heapify(lst,n,largest)
+
+def heapsort(l):
+    for i in range(len(l), -1, -1):
+        heapify(l, len(l), i)
+    for i in range(len(l)-1, 0, -1):
+        l[i], l[0] = l[0], l[i]
+        heapify(l, i, 0)
+    return l
+
+#print(heapsort([1,3,6,5,4,2,7,9,8]))
