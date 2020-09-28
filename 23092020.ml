@@ -9,8 +9,6 @@ let alpha m n = let x = ref 0 in
             if !b then x := !x + 1
     done ; (float_of_int !x) /. (float_of_int (n-m+1)) ;;
 
-
-
 let read_file name = let rec read_file_impl f =
 	try
 		let u = input_line f in [u] @ (read_file_impl f)
@@ -29,12 +27,11 @@ let rec sl_length = function
     | [] -> 0
     | a :: b -> (String.length a) + sl_length b ;;
 
-let files = ["a.txt"; "b.txt"; "c.txt"; "d.txt"; "e.txt"] ;;
+let files = Array.to_list (Sys.readdir "Desktop/OCaml/Texts") ;;
 
 let beta () = let x = ref 0. in
     let n = List.length files in
     for i=0 to n-1 do
-        (*let l = split (read_file ("Desktop/OCaml/"^file)) in*)
         x := !x +. (float_of_int (sl_length (split (read_file ("Desktop/OCaml/Texts/"^(List.nth files i)))))) /. (float_of_int n)
     done; !x ;;
 
