@@ -18,7 +18,6 @@ let rec razbor s = if s = "" then [] else let n = String.length s in match s.[0]
                     else [Space] @ (razbor (String.sub s 1 (n-1)))
     | _ -> failwith "Inalid morse char" ;;
 
-
 let print_morse s =
 List.iter (fun x -> match x with
     | Star -> print_string "*\n"
@@ -28,8 +27,19 @@ List.iter (fun x -> match x with
     | NineSpaces -> print_string "         \n"
     ) (razbor s) ;;
 
+let print_morse_list l =
+List.iter (fun x -> match x with
+    | Star -> print_string "* "
+    | ThreeStars -> print_string "*** "
+    | Space -> print_string " "
+    | ThreeSpaces -> print_string "   "
+    | NineSpaces -> print_string "         "
+    ) l ;;
+
 let hash1 = Hashtbl.create 100 ;;
 let hash2 = Hashtbl.create 100 ;;
+let hash3 = Hashtbl.create 100 ;;
+
 let morse_rus = [
     ([Star; ThreeStars],"А");
     ([ThreeStars; Star; Star; Star],"Б");
@@ -75,6 +85,10 @@ for i = 0 to 31 do
     Hashtbl.add hash2 (fst (List.nth morse_rus i)) (List.nth eng i)
     done ;;
 
+for i = 0 to 31 do
+    Hashtbl.add hash3 (List.nth eng i) (fst (List.nth morse_rus i))
+    done ;;
+
 let rec lang lm buf hash = match lm with
     | [] -> Hashtbl.find hash buf
     | Space :: b -> lang b buf hash
@@ -88,6 +102,13 @@ let eng m = lang (razbor m) [] hash2 ;;
 print_string (rus "* *** *** *   * ***   *** *** *** ***   * ***") ; print_newline () ;;
 print_string (eng "* *** *** *   * ***   * * *   * * * *   * ***") ; print_newline () ;;
 *)
+
+let rec text_to_morse s = if s = "" then [] else match s.[0] with
+    | ' ' -> [NineSpaces] @ (text_to_morse (String.sub s 1 (String.length s -1)))
+    | _ -> if String.length s = 1 then (Hashtbl.find hash3 (String.make 1 (Char.uppercase_ascii s.[0]))) @ (text_to_morse (String.sub s 1 (String.length s -1)))
+    else (Hashtbl.find hash3 (String.make 1 (Char.uppercase_ascii s.[0]))) @ [ThreeSpaces] @ (text_to_morse (String.sub s 1 (String.length s -1))) ;;
+
+(*print_morse_list (text_to_morse (String.uppercase_ascii "Pavel")) ;;*)
 
 let rec int_of_string = function
     | "" -> 0
