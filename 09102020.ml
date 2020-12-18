@@ -20,3 +20,8 @@ let rec string_of_tree t = match t with
 
 print_string (string_of_tree (fst (parse "()(())()" 0))) ;;
 print_newline () ;;
+
+let print_tree lst = let rec help l n = match l with
+    | [] -> print_string "*"
+    | (Tree []) :: y -> print_string ((String.make n ' ') ^ "+-\n"); help y (n+1)
+    | (Tree x) :: y -> print_string ((String.make n ' ') ^ "*\n"); help x n; help y (n-1) in help lst 0 ;;
