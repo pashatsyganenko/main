@@ -16,9 +16,9 @@ def f(x,y,z):
         if x3 > x1:
             return 1
         elif x3 < x1:
-            return -1
-        else:
             return 0
+        else:
+            return -1
     else:
         #k = (y1-y2)/(x1-x2)
         #b = y1 - (k*x1)
@@ -27,9 +27,9 @@ def f(x,y,z):
         if y3 < p:
             return 1
         elif y3 > p:
-            return -1
-        else:
             return 0
+        else:
+            return -1
 
 if n <= 2:
     print(0)
