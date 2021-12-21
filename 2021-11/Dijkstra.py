@@ -139,3 +139,20 @@ if ans == inf:
 	print(-1)
 else:
 	print(ans+cost[0]-cost[-1])
+
+
+
+
+# Задача E
+
+n = int(input())
+
+(max,id) = (-1000000000000000000000000000000000,-1)
+
+for i in range(n):
+	a,b = [int(x) for x in input().split()]
+	if b == 1:
+		if a > max:
+			(max,id) = (a,i)
+
+print(id)
